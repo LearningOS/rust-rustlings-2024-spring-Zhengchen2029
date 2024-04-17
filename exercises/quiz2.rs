@@ -20,7 +20,7 @@
 //
 // No hints this time!
 
-// I AM NOT DONE
+
 
 pub enum Command {
     Uppercase,
@@ -29,14 +29,19 @@ pub enum Command {
 }
 
 mod my_module {
-    use super::Command;
-
+    use super::Command;//导入use enum枚举结构体、模板名称--use只需要路径名字
+//USE关键字->路经、作用域（没明白）->
     // TODO: Complete the function signature!
-    pub fn transformer(input: ???) -> ??? {
+    pub fn transformer(input: Vec<(String,Command)>) -> Vec<String> {
         // TODO: Complete the output declaration!
-        let mut output: ??? = vec![];
-        for (string, command) in input.iter() {
+        let mut output: Vec<String> = vec![];//两种初始化Vector之一
+        for (string, command) in input.iter() {//如何迭代器工作/*？卡在圣经4.2.2 Some(v)这里*/，是返回引用还是转移所有权？函数的引用如何转移？
             // TODO: Complete the function body. You can do it!
+            match command{
+                Command::Uppercase => output.push(string.to_uppercase()),
+                Command::Trim => output.push(string.trim().to_string()),
+                Command::Append(usize) => output.push(string.to_owned()+&"bar".repeat(*usize))//？为司马是解除引用参数，函数如何处理
+            }
         }
         output
     }
@@ -45,7 +50,7 @@ mod my_module {
 #[cfg(test)]
 mod tests {
     // TODO: What do we need to import to have `transformer` in scope?
-    use ???;
+    use super::my_module::transformer;//路径中的函数什么时候有（），什么时候无（）
     use super::Command;
 
     #[test]
